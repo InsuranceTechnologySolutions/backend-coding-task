@@ -46,7 +46,6 @@ using (var scope = app.Services.CreateScope())
 
 app.Run();
 
-
 static async Task<CosmosDbService> InitializeCosmosClientInstanceAsync(IConfigurationSection configurationSection)
 {
     string databaseName = configurationSection.GetSection("DatabaseName").Value;
@@ -60,3 +59,5 @@ static async Task<CosmosDbService> InitializeCosmosClientInstanceAsync(IConfigur
 
     return cosmosDbService;
 }
+
+public partial class Program { }
