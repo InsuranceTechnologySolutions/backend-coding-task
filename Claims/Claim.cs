@@ -15,7 +15,6 @@ namespace Claims
         public string Name { get; set; }
 
         [JsonProperty(PropertyName = "claimType")]
-        //[JsonConverter(typeof(StringEnumConverter))]
         public ClaimType Type { get; set; }
 
         [JsonProperty(PropertyName = "damageCost")]
