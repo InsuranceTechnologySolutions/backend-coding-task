@@ -9,7 +9,7 @@
             _auditContext = auditContext;
         }
 
-        public void Audit(string id, string httpRequestType)
+        public void AuditClaim(string id, string httpRequestType)
         {
             var claimAudit = new ClaimAudit()
             {
@@ -19,6 +19,19 @@
             };
 
             _auditContext.Add(claimAudit);
+            _auditContext.SaveChanges();
+        }
+        
+        public void AuditCover(string id, string httpRequestType)
+        {
+            var coverAudit = new CoverAudit()
+            {
+                Created = DateTime.Now,
+                HttpRequestType = httpRequestType,
+                CoverId = id
+            };
+
+            _auditContext.Add(coverAudit);
             _auditContext.SaveChanges();
         }
     }

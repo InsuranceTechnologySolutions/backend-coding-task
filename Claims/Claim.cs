@@ -7,9 +7,12 @@ namespace Claims
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
+        
+        [JsonProperty(PropertyName = "coverId")]
+        public string CoverId { get; set; }
 
-        [JsonProperty(PropertyName = "year")]
-        public int Year { get; set; }
+        [JsonProperty(PropertyName = "created")]
+        public DateTime Created { get; set; }
 
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }

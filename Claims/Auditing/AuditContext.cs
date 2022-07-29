@@ -8,5 +8,6 @@ namespace Claims.Auditing
         {
         }
         public DbSet<ClaimAudit> ClaimAudits { get; set; }
+        public DbSet<CoverAudit> CoverAudits { get; set; }
     }
 }
