@@ -23,12 +23,13 @@ Note: To get this template working, you need to install the Azure Cosmos DB emul
 ## What to do?
 Download this repository and create a new github/gitlab/Azure repo which will contains your changes. You cannot fork this (our) repository or commit changes to it. 
 
-**(We should set this repository up as a template repository and test this)**
+**(We should set this repository up as a template repository and test this github feature)**
 
 ### Task 1
 The codebase is messy:
 * The controller has too much responsibility. 
 * Introduce proper layering within the codebase. 
+* Documentation is missing.
 * ++
 
 Adhere to the SOLID principles.

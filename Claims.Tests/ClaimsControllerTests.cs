@@ -17,6 +17,9 @@ namespace Claims.Tests
             var response = await client.GetAsync("/Claims");
 
             response.EnsureSuccessStatusCode();
+
+            //TODO: Apart from ensuring 200 OK being returned, what else can be asserted?
         }
+
     }
 }
