@@ -43,6 +43,12 @@ As you can see, the API supports some basic REST operations. But validation is m
 Auditing. The basics are there, but the execution of the DB command (INSERT & DELETE) blocks the processing of the HTTP request. How can this be improved? Look into some asynchronous patterns. It is ok to introduce an Azure managed service to help you with this (ServiceBus/EventGrid/Whatever), but that is not required. Whatever you can manage to get working which is in-memory is also ok.
 
 ### Task 4
-Only one basic test is included, please add other (mandatory) unit tests. Note: If you start on this task first, you will find it hard to write proper tests. You should first introduce proper layering, interfaces, remove the tight couplings ++. You should then be able to mock some dependecies which will make your testing much easier. And remember, test readability is important. Look into extracting common boilerplate / arrangment code to separate fixture(s).
+One basic test is included, please add other (mandatory) unit tests. Note: If you start on this task first, you will find it hard to write proper tests. You should first introduce proper layering, interfaces, remove the tight couplings ++. You should then be able to mock some dependecies which will make your testing much easier. And remember, test readability is important. Look into extracting common boilerplate / arrangment code to separate fixture(s). You are free to use whatever mocking library you want.
+
+<br><br>
+
+#### **Disclaimer**
+As you can see - a key is committed to the appsettings.json file. However, this is the common key for the Azure Cosmos Emulator, all instances uses the exact same value, so it is not a secret.
+
 
 
