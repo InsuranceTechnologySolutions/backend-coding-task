@@ -21,9 +21,13 @@ Note: To get this template working, you need to install the Azure Cosmos DB emul
 
 
 ## What to do?
-Download this repository and create a new github/gitlab/Azure repo which will contains your changes. You cannot fork this (our) repository or commit changes to it. 
+This repository is a template repository, so create your own project using this guide:
 
-**(We should set this repository up as a template repository and test this github feature)**
+[Github - Creating a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+
+An alternative is to download the code and create a new repository using a different VCS provider (gitlab / Azure repos). 
+
+You cannot fork this (our) repository or commit changes to it. 
 
 ### Task 1
 The codebase is messy:
