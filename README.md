@@ -25,9 +25,8 @@ This repository is a template repository, so create your own project using this 
 
 [Github - Creating a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
 
-An alternative is to download the code and create a new repository using a different VCS provider (gitlab / Azure repos). 
+An alternative is to download the code and create a new repository using a different VCS provider (gitlab / Azure repos). Do not fork this repository. 
 
-You cannot fork this (our) repository or commit changes to it. 
 
 ### Task 1
 The codebase is messy:
