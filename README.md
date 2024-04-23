@@ -9,31 +9,43 @@ When you have completed the tasks, please share the repository link with us. We 
 
 Good luck! 😊
 
-<br />
-<br />
+# Prerequisites
 
-# Technical interview
+## Common
+- Your favourite IDE to code in C# 😊
 
-## Programming task
+- _Optional_ - an Azure Subscription. 
+
+You can demo this API by hosting it in Azure. If that is not an option for you, you can run the demo having a locally running instance. If you select a different cloud provider, that is fine for us. 
+
+## Option 1 - Docker
+If you have `docker` and `docker-compose`, you can use the containised dependencies for development. We have provided a `Dockerfile` to build the image for the API and `docker-compose.yml` for external dependencies, but there are some additional steps you need to do:
+
+1. `$ docker-compose up --detach` - start the containers
+1. [Export the emulator's TLS/SSL certs](https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-develop-emulator?tabs=docker-linux%2Ccsharp&pivots=api-nosql#import-the-emulators-tlsssl-certificate) - _Optional_. If you experience difficulties with this step, you may omit the cert validation (information is in the guide), but make sure that only development code does so. Starting codebase assumes that you have the certificate setup.
+1. Configure the application to use the containerised sql database:
+  ```bash
+  $ dotnet user-secrets set 'ConnectionStrings:DefaultConnection' 'Server=localhost;Database=AuditDb;User Id=sa;Password=P@ssw0rd!;Encrypt=False'
+  ```
+
+## Option 2 - 'Bare Metal'
+You will need the following software locally installed:
+
+- [MS SQL Developer / Express](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+- [Azure Cosmos DB Emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator?tabs=ssl-netstd21)
+
+If you are going with this approach, the application is preconfigured for the cosmosdb emulator + MSSQLLocalDb, so no additional configuration is necessary.
+
+> **Disclaimer**
+> 
+> As you can see - a key is committed to the `appsettings.json` file. However, this is the common key for the Azure Cosmos Emulator, all instances uses the exact same value, so it is not a secret.
+> 
+> Same applies to SQLLocalDb connection string.
+
+# Programming Task
 Complete the backend for a multi-tier application for Insurance Claims Handling.
 The use case is to maintain a list of insurance claims. The user should be able to create, delete and read claims.
-
-## Prerequisite
-Your favourite IDE to code in C# 😊
-
-**Optional:** You need an Azure Subscription. 
-
-You can demo this API by hosting it in Azure. If that is not an option for you, you can run the demo having a locally running instance.
-
-If you select to use a different cloud provider, that is fine for us. 
-
-Note: To get this template working, you need to install the Azure Cosmos DB emulator and a localDB (MS SQL Express).
-
-[MS SQL Express](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) - scroll down a bit, right download link.
-
-[Azure Cosmos DB Emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator?tabs=ssl-netstd21)
-
-### Task 1
+## Task 1
 The codebase is messy:
 * The controller has too much responsibility. 
 * Introduce proper layering within the codebase. 
@@ -52,13 +64,13 @@ As you can see, the API supports some basic REST operations. But validation is m
   * StartDate cannot be in the past
   * total insurance period cannot exceed 1 year
 
-### Task 3
+## Task 3
 Auditing. The basics are there, but the execution of the DB command (INSERT & DELETE) blocks the processing of the HTTP request. How can this be improved? Look into some asynchronous patterns. It is ok to introduce an Azure managed service to help you with this (ServiceBus/EventGrid/Whatever), but that is not required. Whatever you can manage to get working which is in-memory is also ok.
 
-### Task 4
+## Task 4
 One basic test is included, please add other (mandatory) unit tests. Note: If you start on this task first, you will find it hard to write proper tests. Some refactoring of the Claims API will be needed. 
 
-### Task 5
+## Task 5
 Cover premium computation formula evolved over time. Fellow developers were lazy and omitted all tests. Now there are a couple of bugs. Can you fix them? Can you make the computation more readable?
 
 Desired logic: 
@@ -69,11 +81,6 @@ Desired logic:
   * First 30 days are computed based on the logic above
   * Following 150 days are discounted by 5% for Yacht and by 2% for other types
   * The remaining days are discounted by additional 3% for Yacht and by 1% for other types
-
-<br><br>
-
-#### **Disclaimer**
-As you can see - a key is committed to the appsettings.json file. However, this is the common key for the Azure Cosmos Emulator, all instances uses the exact same value, so it is not a secret.
 
 
 
