@@ -1,28 +1,28 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿using System.Text.Json.Serialization;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Claims
 {
     public class Claim
     {
-        [JsonProperty(PropertyName = "id")]
+        [BsonId]
         public string Id { get; set; }
-        
-        [JsonProperty(PropertyName = "coverId")]
+
+        [BsonElement("coverId")]
         public string CoverId { get; set; }
 
-        [JsonProperty(PropertyName = "created")]
+        [BsonElement("created")]
+        [BsonDateTimeOptions(DateOnly = true)]
         public DateTime Created { get; set; }
 
-        [JsonProperty(PropertyName = "name")]
+        [BsonElement("name")]
         public string Name { get; set; }
 
-        [JsonProperty(PropertyName = "claimType")]
+        [BsonElement("claimType")]
         public ClaimType Type { get; set; }
 
-        [JsonProperty(PropertyName = "damageCost")]
+        [BsonElement("damageCost")]
         public decimal DamageCost { get; set; }
-
     }
 
     public enum ClaimType

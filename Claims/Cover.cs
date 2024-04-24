@@ -1,22 +1,24 @@
-using Newtonsoft.Json;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Claims;
 
 public class Cover
 {
-    [JsonProperty(PropertyName = "id")]
+    [BsonId]
     public string Id { get; set; }
 
-    [JsonProperty(PropertyName = "startDate")]
-    public DateOnly StartDate { get; set; }
-    
-    [JsonProperty(PropertyName = "endDate")]
-    public DateOnly EndDate { get; set; }
-    
-    [JsonProperty(PropertyName = "claimType")]
+    [BsonElement("startDate")]
+    [BsonDateTimeOptions(DateOnly = true)]
+    public DateTime StartDate { get; set; }
+
+    [BsonElement("endDate")]
+    [BsonDateTimeOptions(DateOnly = true)]
+    public DateTime EndDate { get; set; }
+
+    [BsonElement("claimType")]
     public CoverType Type { get; set; }
 
-    [JsonProperty(PropertyName = "premium")]
+    [BsonElement("premium")]
     public decimal Premium { get; set; }
 }
 

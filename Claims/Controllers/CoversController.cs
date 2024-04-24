@@ -1,6 +1,6 @@
 using Claims.Auditing;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Cosmos;
+using Microsoft.EntityFrameworkCore;
 
 namespace Claims.Controllers;
 
@@ -8,20 +8,19 @@ namespace Claims.Controllers;
 [Route("[controller]")]
 public class CoversController : ControllerBase
 {
+    private readonly ClaimsContext _claimsContext;
     private readonly ILogger<CoversController> _logger;
     private readonly Auditer _auditer;
-    private readonly Container _container;
 
-    public CoversController(CosmosClient cosmosClient, AuditContext auditContext, ILogger<CoversController> logger)
+    public CoversController(ClaimsContext claimsContext, AuditContext auditContext, ILogger<CoversController> logger)
     {
+        _claimsContext = claimsContext;
         _logger = logger;
         _auditer = new Auditer(auditContext);
-        _container = cosmosClient?.GetContainer("ClaimDb", "Cover")
-                     ?? throw new ArgumentNullException(nameof(cosmosClient));
     }
-    
-    [HttpPost]
-    public async Task<ActionResult> ComputePremiumAsync(DateOnly startDate, DateOnly endDate, CoverType coverType)
+
+    [HttpPost("compute")]
+    public async Task<ActionResult> ComputePremiumAsync(DateTime startDate, DateTime endDate, CoverType coverType)
     {
         return Ok(ComputePremium(startDate, endDate, coverType));
     }
@@ -29,30 +28,15 @@ public class CoversController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Cover>>> GetAsync()
     {
-        var query = _container.GetItemQueryIterator<Cover>(new QueryDefinition("SELECT * FROM c"));
-        var results = new List<Cover>();
-        while (query.HasMoreResults)
-        {
-            var response = await query.ReadNextAsync();
-
-            results.AddRange(response.ToList());
-        }
-
+        var results = await _claimsContext.Covers.ToListAsync();
         return Ok(results);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<Cover>> GetAsync(string id)
     {
-        try
-        {
-            var response = await _container.ReadItemAsync<Cover>(id, new (id));
-            return Ok(response.Resource);
-        }
-        catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-        {
-            return NotFound();
-        }
+        var results = await _claimsContext.Covers.ToListAsync();
+        return Ok(results.SingleOrDefault(cover => cover.Id == id));
     }
 
     [HttpPost]
@@ -60,19 +44,25 @@ public class CoversController : ControllerBase
     {
         cover.Id = Guid.NewGuid().ToString();
         cover.Premium = ComputePremium(cover.StartDate, cover.EndDate, cover.Type);
-        await _container.CreateItemAsync(cover, new PartitionKey(cover.Id));
+        _claimsContext.Covers.Add(cover);
+        await _claimsContext.SaveChangesAsync();
         _auditer.AuditCover(cover.Id, "POST");
         return Ok(cover);
     }
 
     [HttpDelete("{id}")]
-    public Task DeleteAsync(string id)
+    public async Task DeleteAsync(string id)
     {
         _auditer.AuditCover(id, "DELETE");
-        return _container.DeleteItemAsync<Cover>(id, new (id));
+        var cover = await _claimsContext.Covers.Where(cover => cover.Id == id).SingleOrDefaultAsync();
+        if (cover is not null)
+        {
+            _claimsContext.Covers.Remove(cover);
+            await _claimsContext.SaveChangesAsync();
+        }
     }
 
-    private decimal ComputePremium(DateOnly startDate, DateOnly endDate, CoverType coverType)
+    private decimal ComputePremium(DateTime startDate, DateTime endDate, CoverType coverType)
     {
         var multiplier = 1.3m;
         if (coverType == CoverType.Yacht)
@@ -91,7 +81,7 @@ public class CoversController : ControllerBase
         }
 
         var premiumPerDay = 1250 * multiplier;
-        var insuranceLength = endDate.DayNumber - startDate.DayNumber;
+        var insuranceLength = (endDate - startDate).TotalDays;
         var totalPremium = 0m;
 
         for (var i = 0; i < insuranceLength; i++)
