@@ -1,7 +1,7 @@
 # Read this first!
 This repository is a template repository for our technical interview, so create your own project using this guide:
 
-[Github - Creating a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+[GitHub - Creating a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
 
 An alternative is to download the code and create a new repository using a different VCS provider (gitlab / Azure repos). **Do not fork this repository.**
 
@@ -11,36 +11,17 @@ Good luck! 😊
 
 # Prerequisites
 
-## Common
 - Your favourite IDE to code in C# 😊
+- _Optional_ - an Azure Subscription. You can demo this API by hosting it in Azure. If that is not an option for you, you can run the demo having a locally running instance. If you select a different cloud provider, that is fine for us.
+- `Docker` and `docker-compose`
 
-- _Optional_ - an Azure Subscription. 
-
-You can demo this API by hosting it in Azure. If that is not an option for you, you can run the demo having a locally running instance. If you select a different cloud provider, that is fine for us. 
-
-## Option 1 - Docker
-If you have `docker` and `docker-compose`, you can use the containised dependencies for development. We have provided a `Dockerfile` to build the image for the API and `docker-compose.yml` for external dependencies, but there are some additional steps you need to do:
-
-1. `$ docker-compose up --detach` - start the containers
-1. [Export the emulator's TLS/SSL certs](https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-develop-emulator?tabs=docker-linux%2Ccsharp&pivots=api-nosql#import-the-emulators-tlsssl-certificate) - _Optional_. If you experience difficulties with this step, you may omit the cert validation (information is in the guide), but make sure that only development code does so. Starting codebase assumes that you have the certificate setup.
-1. Configure the application to use the containerised sql database:
-  ```bash
-  $ dotnet user-secrets set 'ConnectionStrings:DefaultConnection' 'Server=localhost;Database=AuditDb;User Id=sa;Password=P@ssw0rd!;Encrypt=False'
-  ```
-
-## Option 2 - 'Bare Metal'
-You will need the following software locally installed:
-
-- [MS SQL Developer / Express](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
-- [Azure Cosmos DB Emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator?tabs=ssl-netstd21)
-
-If you are going with this approach, the application is preconfigured for the cosmosdb emulator + MSSQLLocalDb, so no additional configuration is necessary.
+Use `$ docker-compose up --detach` to start the containers with dependencies. The existing code base is preconfigured to work with these containers.
+There are no volumes setup for any of the storage, so when you `docker-compose down` these storage media *WILL NOT BE PERSISTED*.
 
 > **Disclaimer**
 > 
-> As you can see - a key is committed to the `appsettings.json` file. However, this is the common key for the Azure Cosmos Emulator, all instances uses the exact same value, so it is not a secret.
-> 
-> Same applies to SQLLocalDb connection string.
+> As you can see - a DB password is committed to the `appsettings.json` file. However, these secrets are just for development dependencies. If you deploy
+> the application into the cloud, we expect that you make use of an alternate method of storing secrets.
 
 # Programming Task
 Complete the backend for a multi-tier application for Insurance Claims Handling.
@@ -81,6 +62,3 @@ Desired logic:
   * First 30 days are computed based on the logic above
   * Following 150 days are discounted by 5% for Yacht and by 2% for other types
   * The remaining days are discounted by additional 3% for Yacht and by 1% for other types
-
-
-
