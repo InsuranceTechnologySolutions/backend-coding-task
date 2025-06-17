@@ -13,15 +13,8 @@ Good luck! 😊
 
 - Your favourite IDE to code in C# 😊
 - _Optional_ - an Azure Subscription. You can demo this API by hosting it in Azure. If that is not an option for you, you can run the demo having a locally running instance. If you select a different cloud provider, that is fine for us.
-- `Docker` and `docker-compose`
-
-Use `$ docker-compose up --detach` to start the containers with dependencies. The existing code base is preconfigured to work with these containers.
-There are no volumes setup for any of the storage, so when you `docker-compose down` these storage media *WILL NOT BE PERSISTED*.
-
-> **Disclaimer**
-> 
-> As you can see - a DB password is committed to the `appsettings.json` file. However, these secrets are just for development dependencies. If you deploy
-> the application into the cloud, we expect that you make use of an alternate method of storing secrets.
+	- _That requires a rewrite of the setup of the application, as it currently depends on TestContainer packages to simplify the local development experience._
+- `Docker Desktop` or a different Docker deamon running on your machine.
 
 # Programming Task
 Complete the backend for a multi-tier application for Insurance Claims Handling.

@@ -1,13 +1,28 @@
-using System.Text.Json.Serialization;
-using Claims;
 using Claims.Auditing;
 using Claims.Controllers;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-
+using System.Runtime.InteropServices;
+using System.Text.Json.Serialization;
+using Testcontainers.MongoDb;
+using Testcontainers.MsSql;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Start Testcontainers for SQL Server and MongoDB
+var sqlContainer = (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
+        ? new MsSqlBuilder()
+            .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
+        : new()
+
+    ).Build();
+
+var mongoContainer = new MongoDbBuilder()
+    .WithImage("mongo:latest")
+    .Build();
+
+await sqlContainer.StartAsync();
+await mongoContainer.StartAsync();
 
 // Add services to the container.
 builder.Services
@@ -17,15 +32,15 @@ builder.Services
         x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
-builder.Services.AddDbContext<AuditContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddDbContext<ClaimsContext>(
-    options =>
-    {
-        var client = new MongoClient(builder.Configuration.GetConnectionString("MongoDb"));
-        var database = client.GetDatabase(builder.Configuration["MongoDb:DatabaseName"]);
-        options.UseMongoDB(database.Client, database.DatabaseNamespace.DatabaseName);
-    }
-);
+builder.Services.AddDbContext<AuditContext>(options =>
+    options.UseSqlServer(sqlContainer.GetConnectionString()));
+
+builder.Services.AddDbContext<ClaimsContext>(options =>
+{
+    var client = new MongoClient(mongoContainer.GetConnectionString());
+    var database = client.GetDatabase(builder.Configuration["MongoDb:DatabaseName"]); // Use a default/test database name
+    options.UseMongoDB(database.Client, database.DatabaseNamespace.DatabaseName);
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
