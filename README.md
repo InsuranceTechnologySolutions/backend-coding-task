@@ -13,7 +13,7 @@ Good luck! 😊
 
 - Your favourite IDE to code in C# 😊
 - _Optional_ - an Azure Subscription. You can demo this API by hosting it in Azure. If that is not an option for you, you can run the demo having a locally running instance. If you select a different cloud provider, that is fine for us.
-	- _That requires a rewrite of the setup of the application, as it currently depends on TestContainer packages to simplify the local development experience._
+	- _This requires a rewrite of the setup (program.cs) of the application, as it currently depends on TestContainer packages to simplify the local development experience._
 - `Docker Desktop` or a different Docker deamon running on your machine.
 
 # Programming Task
