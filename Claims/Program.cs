@@ -10,15 +10,12 @@ using Testcontainers.MsSql;
 var builder = WebApplication.CreateBuilder(args);
 
 // Start Testcontainers for SQL Server and MongoDB
-var sqlContainer = (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
-        ? new MsSqlBuilder()
-            .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
-        : new()
+var sqlContainer = new MsSqlBuilder(RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
+        ? "mcr.microsoft.com/mssql/server:2022-latest"
+        : "mcr.microsoft.com/mssql/server:2019-CU18-ubuntu-20.04")
+    .Build();
 
-    ).Build();
-
-var mongoContainer = new MongoDbBuilder()
-    .WithImage("mongo:latest")
+var mongoContainer = new MongoDbBuilder("mongo:latest")
     .Build();
 
 await sqlContainer.StartAsync();
