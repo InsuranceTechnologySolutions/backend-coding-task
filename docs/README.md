@@ -9,7 +9,7 @@ An alternative is to download the code and create a new repository using a diffe
 We expect that many of you will use AI tools (LLMs, coding assistants, agents) while solving this task, and that is perfectly fine. Please keep the following in mind:
 
 -  👀📖 **Your code will be read by humans.** Reviewers will read your solution before the interview, so aim for code that is clear, focused and easy to follow. More code is not better code.  This also applies to any documentation you write: use clear language intended for human readers. AI slop is frowned upon.
-- **Feel free to share your AI artifacts.** If you used AI assistance, we encourage you to include the artifacts you created along the way, for example custom instructions, skills, prompts, a plan written to markdown, or session output. This is optional, but it helps us understand how you work.
+- **Feel free to share your AI artifacts.** If you used AI assistance, we encourage you to include the artifacts you created along the way, for example custom instructions, skills, a plan written to markdown, or session output. This is optional, but it helps us understand how you work.
 
 ## Submitting your solution
 When you have completed the tasks, please share the repository link with us. We will review your submission before the interview.
