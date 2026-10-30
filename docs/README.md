@@ -14,7 +14,7 @@ We expect that many of you will use AI tools (LLMs, coding assistants, agents) w
 ## Submitting your solution
 When you have completed the tasks, please share the repository link with us. We will review your submission before the interview.
 
-After your code is merged and you are happy with your solution, it would be really helpful if you created a pull request where you explain your chain of thought. AI-assisted coding tends to produce a lot of code, so use it to guide us 🧭:
+When you are happy with your solution, it would be really helpful if you created a pull request where you explain your chain of thought. AI-assisted coding tends to produce a lot of code, so use it to guide us 🧭:
 - Which parts of the code should we pay the most attention to?
 - Which trade-offs did you make, and which assumptions did you rely on?
 - What would you like to show and discuss during the interview? (And rest assured, we will come up with our own topics too 🙂) 
