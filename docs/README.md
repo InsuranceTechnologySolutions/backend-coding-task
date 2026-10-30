@@ -5,7 +5,20 @@ This repository is a template repository for our technical interview, so create 
 
 An alternative is to download the code and create a new repository using a different VCS provider (gitlab / Azure repos). **Do not fork this repository.**
 
+## Using AI assistance
+We expect that many of you will use AI tools (LLMs, coding assistants, agents) while solving this task, and that is perfectly fine. Please keep the following in mind:
+
+- **Your code will be read by humans.** Reviewers will read your solution before the interview, so aim for code that is clear, focused and easy to follow. More code is not better code.
+- **Feel free to share your AI artifacts.** If you used AI assistance, we encourage you to include the artifacts you created along the way, for example custom instructions, skills, prompts, a plan written to markdown, or session output. This is optional, but it helps us understand how you work and makes the assessment easier.
+
+## Submitting your solution
 When you have completed the tasks, please share the repository link with us. We will review your submission before the interview.
+
+After your code is merged and you are happy with your solution, we encourage you to create a pull request in your repository where you explain your chain of thought. AI-assisted coding tends to produce a lot of code, so use it to guide us through your work:
+- Which parts of the code should we pay the most attention to?
+- Is there anything special worth discussing?
+- Which trade-offs did you make, and which assumptions did you rely on?
+- What would you like to show and discuss during the interview?
 
 Good luck! 😊
 
